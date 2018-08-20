@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">dagger2tryout</string>
+<string name="app_name">מתזמן הודעות</string>
+    <string name="permission_send_sms_missing">אשר בבקשה שליחת הודעות באפליקציה</string>
+    <string name="send_msg_error">לא יכול לשלוח הודעה מוזרה</string>
+    <string name="send_msg_error_2">לא יכול לשלוח הודעה ככה</string>
+    <string name="permission_send_sms_approved">סבבה</string>
+    <string name="message_sent_to">ההודעה נשלחה ל</string>
+    <string name="permission_contact_missing">אשר גישה לאנשי קשר כדי לשלוח הודעות</string>
+    <string name="error_missing_field">חסר</string>
 </resources>
