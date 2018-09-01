@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 /**
  * To add instances into your Classes, Activities or Fragments, just provide the instance initialization
- * here, with all of it's sub instances, and add the inject line into your desired class/fragment/activity:
+ * here, with all of it's sub instances, and add the inject line into your desired class/fragment/scheduleactivity:
  * @Inject lateinit var localRepository: LocalRepository
  *
  * Those instances will live as long as the app live so keep an eye on your memory monitoring.

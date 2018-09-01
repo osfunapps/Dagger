@@ -25,8 +25,8 @@ public object PermissionsHandler {
                     arrayOf(permissionName), requestCode)
 
 
-    /*on your activity:
-    @activity
+    /*on your scheduleactivity:
+    @scheduleactivity
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
     {
         switch(requestCode) {

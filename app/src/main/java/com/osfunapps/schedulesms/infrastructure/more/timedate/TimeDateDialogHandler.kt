@@ -1,28 +1,28 @@
 package com.osfunapps.schedulesms.infrastructure.more.timedate
 
 import android.app.FragmentManager
+import com.osfunapps.schedulesms.scheduleactivity.schedulefragment.presentation.instances.objects.Contact
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
  * Created by osapps on 19/08/2018.
  */
 class TimeDateDialogHandler : DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-    private lateinit var fragmentManager: FragmentManager
 
     //dialogs
     private lateinit var timeDialog: TimePickerDialog
     private lateinit var dateDialog: DatePickerDialog
 
-    private var calendar: Calendar? = null
+    //private var calendar: Calendar? = null
     private lateinit var callback: TimeDateDialogCallback
 
 
-    fun setInstances(fragmentManager: FragmentManager, callback: TimeDateDialogCallback) {
+    fun setInstances(callback: TimeDateDialogCallback) {
         setDialogs()
         this.callback = callback
-        this.fragmentManager = fragmentManager
     }
 
     private fun setDialogs() {
@@ -33,38 +33,39 @@ class TimeDateDialogHandler : DatePickerDialog.OnDateSetListener, TimePickerDial
 
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        storeDateParams(year, monthOfYear, dayOfMonth)
-        popTimeDialog()
-    }
 
-
-    private fun storeDateParams(year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        calendar = Calendar.getInstance()
+        val calendar = Calendar.getInstance()
         calendar?.set(year, monthOfYear, dayOfMonth)
-
+        val day = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault())
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+        val date = dateFormat.format(calendar.time)
+        callback.onDateFetched(date, day)
     }
 
-    private fun storeTimeParams(hourOfDay: Int, minutes: Int, second: Int) {
-        calendar?.apply {
+
+
+
+    override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
+
+        val calendar = Calendar.getInstance()
+        calendar.apply {
             set(Calendar.HOUR_OF_DAY, hourOfDay)
-            set(Calendar.MINUTE, minutes)
+            set(Calendar.MINUTE, minute)
             set(Calendar.SECOND, second)
         }
 
-    }
-
-    override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
-        storeTimeParams(hourOfDay, minute, second)
-        if (calendar != null)
-            callback.onDateTimeSet(calendar!!)
+        val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val time = dateFormat.format(calendar.time)
+        callback.onTimeFetched(time)
     }
 
     fun popDateDialog(fragmentManager: FragmentManager) = dateDialog.show(fragmentManager, "date")
-    private fun popTimeDialog() = timeDialog.show(fragmentManager, "time")
+    fun popTimeDialog(fragmentManager: FragmentManager) = timeDialog.show(fragmentManager, "time")
 
 
 }
 
 interface TimeDateDialogCallback {
-    fun onDateTimeSet(calendar: Calendar)
+    fun onDateFetched(date: String, day: String)
+    fun onTimeFetched(time: String)
 }
